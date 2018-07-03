@@ -86,6 +86,24 @@ public class DAO {
         }
     }
 
+    public void addFacesPersonas(String idPersona, String url, String Descripcion) throws IOException {
+        HttpClient httpClient = new DefaultHttpClient();
+        try {
+            StringEntity bodyInitial = new StringEntity("{\n"
+                    + "    \"url\": \"" + url + "\"\n"
+                    + "}");
+
+            HttpPost request = new HttpPost(Configuration.Location + "/persongroups/usuarios/persons/" + idPersona + "/persistedFaces?userData=" + Descripcion);
+            request.addHeader("Content-Type", "application/json");
+            request.addHeader("Ocp-Apim-Subscription-Key", Configuration.key);
+            request.setEntity(bodyInitial);
+
+            httpClient.execute(request);
+        } catch (IOException e) {
+            throw e;
+        }
+    }
+
     public static void main(String[] args) throws IOException {
         DAO dao = new DAO();
         dao.createPersonas("Demo1", "Demo1");

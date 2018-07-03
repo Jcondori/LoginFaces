@@ -1,6 +1,7 @@
 package Controller;
 
 import Dao.DAO;
+import Model.Faces;
 import Model.Persona;
 import java.io.IOException;
 import javax.inject.Named;
@@ -20,6 +21,7 @@ public class Controller implements Serializable {
 
     private List<Persona> LstPersonas = new ArrayList();
     private Persona persona = new Persona();
+    private Faces faces = new Faces();
 
     @PostConstruct
     public void start() {
@@ -51,8 +53,8 @@ public class Controller implements Serializable {
             throw e;
         }
     }
-    
-    public void deletePerson() throws IOException{
+
+    public void deletePerson() throws IOException {
         DAO dao;
         try {
             dao = new DAO();
@@ -64,7 +66,22 @@ public class Controller implements Serializable {
         }
     }
     
-    public void clean(){
-        persona = new Persona();
+    public void addFacesPerson() throws IOException {
+        DAO dao;
+        try {
+            dao = new DAO();
+            dao.addFacesPersonas(persona.getId(), faces.getUrl(), faces.getDescripcion());
+            clean();
+            listarPersonas();
+        } catch (IOException e) {
+            throw e;
+        }
     }
+
+    public void clean() {
+        persona = new Persona();
+        faces = new Faces();
+    }
+    
+    
 }

@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="dialogaddFaces"
+                  widgetVar="addFacesPerson"
+                  modal="true"  
+                  showEffect="fade"
+                  hideEffect="fade">
+
+            <h:form id="formAdFacesPerson">
+                <p:panelGrid columns="2">
+
+                    <p:outputLabel value="URL"/>
+                    <p:inputText value="#{controller.faces.url}"/>
+                    <p:outputLabel value="Descripcion"/>
+                    <p:inputText value="#{controller.faces.descripcion}"/>
+
+                    <p:commandButton id="btnIngresarPerson"
+                                     value="Ingresar"
+                                     actionListener="#{controller.createPerson()}"
+                                     oncomplete="handleSubmit(args,'createPerson');"
+                                     update=":form:dataPerson"/>
+
+                    <p:blockUI trigger="btnIngresarPerson" block="formIngresarPerson"/>
+
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

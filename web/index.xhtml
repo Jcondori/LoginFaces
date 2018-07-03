@@ -12,7 +12,8 @@
                          value="#{controller.lstPersonas}"
                          var="Person"
                          selectionMode="single"
-                         selection="#{controller.persona}">
+                         selection="#{controller.persona}"
+                         rowKey="#{Person.id}">
 
                 <p:column headerText="Codigo">
                     <h:outputText value="#{Person.id}"/>
@@ -34,11 +35,11 @@
 
             <p:commandButton id="btnListar" value="Actualizar Lista" actionListener="#{controller.listarPersonas()}" update="dataPerson"/>
 
-            <p:commandButton value="Nueva Persona" oncomplete="PF('createPerson').show();" update=":formIngresarPerson"/>
+            <p:commandButton value="Nueva Persona" actionListener="#{controller.clean()}" oncomplete="PF('createPerson').show();" update=":formIngresarPerson"/>
 
             <p:blockUI trigger="dataPerson btnListar btnEliminarPerson" block="form"/>
 
-            <p:contextMenu>
+            <p:contextMenu for="dataPerson">
                 <p:menuitem id="btnEliminarPerson" value="Eliminar" actionListener="#{controller.deletePerson()}" update="dataPerson">
                     <p:confirm header="Confirmacion" message="¿Desea eliminar la Persona?" icon="ui-icon-alert"/>                
                 </p:menuitem>

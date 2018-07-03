@@ -12,6 +12,7 @@ import java.util.List;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -72,27 +73,14 @@ public class DAO {
         }
     }
 
-    public void listarPersonas2() throws IOException {
+    public void deletePersonas(String idPersona) throws IOException {
         HttpClient httpClient = new DefaultHttpClient();
-        JsonParser convert = new JsonParser();
         try {
-            HttpGet request = new HttpGet(Configuration.Location + "/persongroups/usuarios/persons");
-            request.addHeader("Content-Type", "application/json");
+
+            HttpDelete request = new HttpDelete(Configuration.Location + "/persongroups/usuarios/persons/" + idPersona);
             request.addHeader("Ocp-Apim-Subscription-Key", Configuration.key);
 
-            HttpResponse response = httpClient.execute(request);
-            HttpEntity entity = response.getEntity();
-
-            String cuerpo = EntityUtils.toString(entity);
-
-            JsonArray body = convert.parse(cuerpo).getAsJsonArray();
-
-            JsonObject persona1 = body.get(0).getAsJsonObject();
-
-            String idPersona = persona1.get("personId").getAsString();
-
-            System.out.println(idPersona);
-
+            httpClient.execute(request);
         } catch (IOException e) {
             throw e;
         }

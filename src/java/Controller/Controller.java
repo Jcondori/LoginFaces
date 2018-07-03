@@ -45,10 +45,26 @@ public class Controller implements Serializable {
         try {
             dao = new DAO();
             dao.createPersonas(persona.getNombre(), persona.getDescripcion());
-            persona = new Persona();
+            clean();
             listarPersonas();
         } catch (IOException e) {
             throw e;
         }
+    }
+    
+    public void deletePerson() throws IOException{
+        DAO dao;
+        try {
+            dao = new DAO();
+            dao.deletePersonas(persona.getId());
+            clean();
+            listarPersonas();
+        } catch (IOException e) {
+            throw e;
+        }
+    }
+    
+    public void clean(){
+        persona = new Persona();
     }
 }

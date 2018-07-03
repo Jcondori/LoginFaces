@@ -8,23 +8,46 @@
     </h:head>
     <h:body>
         <h:form id="form">
-            <p:dataTable id="dataPerson" value="#{controller.lstPersonas}" var="Person">
+            <p:dataTable id="dataPerson"
+                         value="#{controller.lstPersonas}"
+                         var="Person"
+                         selectionMode="single"
+                         selection="#{controller.persona}">
+
                 <p:column headerText="Codigo">
                     <h:outputText value="#{Person.id}"/>
                 </p:column>
+
                 <p:column headerText="Nombre">
                     <h:outputText value="#{Person.nombre}"/>
                 </p:column>
+
                 <p:column headerText="Descripcion">
                     <h:outputText value="#{Person.descripcion}"/>
                 </p:column>
+
                 <p:column headerText="Cantidad de Rostros">
                     <h:outputText value="#{Person.rostros}"/>
                 </p:column>
+
             </p:dataTable>
+
             <p:commandButton id="btnListar" value="Actualizar Lista" actionListener="#{controller.listarPersonas()}" update="dataPerson"/>
+
             <p:commandButton value="Nueva Persona" oncomplete="PF('createPerson').show();" update=":formIngresarPerson"/>
-            <p:blockUI trigger="dataPerson btnListar" block="form"/>
+
+            <p:blockUI trigger="dataPerson btnListar btnEliminarPerson" block="form"/>
+
+            <p:contextMenu>
+                <p:menuitem id="btnEliminarPerson" value="Eliminar" actionListener="#{controller.deletePerson()}" update="dataPerson">
+                    <p:confirm header="Confirmacion" message="¿Desea eliminar la Persona?" icon="ui-icon-alert"/>                
+                </p:menuitem>
+            </p:contextMenu>
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="SI" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                <p:commandButton value="NO" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+            </p:confirmDialog>
         </h:form>
 
         <p:dialog id="dialogCreate"
@@ -50,7 +73,7 @@
                 </p:panelGrid>
             </h:form>
         </p:dialog>
-        
+
         <script src="resources/js/jsfcrud.js" type="text/javascript"></script>
     </h:body>
 </html>

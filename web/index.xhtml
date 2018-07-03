@@ -49,7 +49,7 @@
                 <p:menuitem id="btnEliminarPerson" value="Eliminar" actionListener="#{controller.deletePerson()}" update="dataPerson">
                     <p:confirm header="Confirmacion" message="¿Desea eliminar la Persona?" icon="ui-icon-alert"/>                
                 </p:menuitem>
-                <p:menuitem id="addFacesPerson" oncomplete="PF('addFacesPerson').show();" update=":formAdFacesPerson"/>
+                <p:menuitem id="addFacesPerson" value="Agregar Rostro" oncomplete="PF('addFacesPerson').show();" update=":formAdFacesPerson"/>
             </p:contextMenu>
 
             <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">

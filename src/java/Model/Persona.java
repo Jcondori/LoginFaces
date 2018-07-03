@@ -9,6 +9,7 @@ public class Persona {
     private String Nombre;
     private String Descripcion;
     private String Rostros;
+    private String Confianza;
 
     public Persona() {
     }
@@ -19,5 +20,10 @@ public class Persona {
         this.Descripcion = Descripcion;
         this.Rostros = Rostros;
     }
-    
+
+    public Persona(String Id, String Confianza) {
+        this.Id = Id;
+        this.Confianza = Confianza;
+    }
+
 }

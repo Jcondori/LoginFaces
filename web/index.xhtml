@@ -9,11 +9,11 @@
     </h:head>
     <h:body>
         <h:form id="form">
-            
+
             <p:growl id="msg">
                 <p:autoUpdate/>
             </p:growl>
-            
+
             <p:dataTable id="dataPerson"
                          value="#{controller.lstPersonas}"
                          var="Person"
@@ -43,7 +43,9 @@
 
             <p:commandButton value="Nueva Persona" actionListener="#{controller.clean()}" oncomplete="PF('createPerson').show();" update=":formIngresarPerson"/>
 
-            <p:blockUI trigger="dataPerson btnListar btnEliminarPerson" block="form"/>
+            <p:commandButton id="btnTrain" value="Entrenar el Sistema" actionListener="#{controller.trainGrupoPerson()}" update="form"/>
+
+            <p:blockUI trigger="dataPerson btnListar btnEliminarPerson btnTrain" block="form"/>
 
             <p:contextMenu for="dataPerson">
                 <p:menuitem id="btnEliminarPerson" value="Eliminar" actionListener="#{controller.deletePerson()}" update="dataPerson">
@@ -56,6 +58,18 @@
                 <p:commandButton value="SI" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
                 <p:commandButton value="NO" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
             </p:confirmDialog>
+        </h:form>
+
+        <h:form id="formIdentify">
+            <p:inputText value="#{controller.urlImagen}" placeholder="Url de la Imagen"/>
+            <p:commandButton id="btnIdentify" value="Identificar" actionListener="#{controller.identifyFaces()}" update="formIdentify"/>
+            <br/>
+            <img src="#{controller.urlIndetificado}" height="500px"/>
+            <h:outputText value="#{controller.personaIdentificada.nombre}"/>
+            <h:outputText value="#{controller.personaIdentificada.descripcion}"/>
+            <h:outputText value="#{controller.personaIdentificada.confianza}"/>
+            
+            <p:blockUI trigger="btnIdentify" block="formIdentify"/>
         </h:form>
 
         <ui:include src="Dialogos/CreatePerson.xhtml"/>

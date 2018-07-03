@@ -32,9 +32,7 @@ public class DAO {
             HttpResponse response = httpClient.execute(request);
             HttpEntity entity = response.getEntity();
 
-            String cuerpo = EntityUtils.toString(entity);
-
-            JsonArray body = convert.parse(cuerpo).getAsJsonArray();
+            JsonArray body = convert.parse(EntityUtils.toString(entity)).getAsJsonArray();
 
             Persona person;
 
@@ -103,7 +101,7 @@ public class DAO {
             throw e;
         }
     }
-    
+
     public void trainPersonas() throws IOException {
         HttpClient httpClient = new DefaultHttpClient();
         try {
@@ -112,6 +110,95 @@ public class DAO {
             request.addHeader("Ocp-Apim-Subscription-Key", Configuration.key);
 
             httpClient.execute(request);
+        } catch (IOException e) {
+            throw e;
+        }
+    }
+
+    public String faceDetect(String url) throws IOException {
+        HttpClient httpClient = new DefaultHttpClient();
+        JsonParser convert = new JsonParser();
+        try {
+            StringEntity bodyInitial = new StringEntity("{\n"
+                    + "    \"url\": \"" + url + "\"\n"
+                    + "}");
+
+            HttpPost request = new HttpPost(Configuration.Location + "/detect");
+            request.addHeader("Content-Type", "application/json");
+            request.addHeader("Ocp-Apim-Subscription-Key", Configuration.key);
+            request.setEntity(bodyInitial);
+
+            HttpResponse response = httpClient.execute(request);
+            HttpEntity entity = response.getEntity();
+
+            JsonArray body = convert.parse(EntityUtils.toString(entity)).getAsJsonArray();
+
+            return body.get(0).getAsJsonObject().get("faceId").getAsString();
+
+        } catch (IOException e) {
+            throw e;
+        }
+    }
+
+    public Persona faceIdentify(String idFaces) throws IOException {
+        HttpClient httpClient = new DefaultHttpClient();
+        JsonParser convert = new JsonParser();
+        try {
+            StringEntity bodyInitial = new StringEntity("{\n"
+                    + "    \"personGroupId\": \"usuarios\",\n"
+                    + "    \"faceIds\": [\n"
+                    + "        \"" + idFaces + "\"\n"
+                    + "    ],\n"
+                    + "    \"maxNumOfCandidatesReturned\": 1,\n"
+                    + "    \"confidenceThreshold\": 0.5\n"
+                    + "}");
+
+            HttpPost request = new HttpPost(Configuration.Location + "/identify");
+            request.addHeader("Content-Type", "application/json");
+            request.addHeader("Ocp-Apim-Subscription-Key", Configuration.key);
+            request.setEntity(bodyInitial);
+
+            HttpResponse response = httpClient.execute(request);
+            HttpEntity entity = response.getEntity();
+
+            JsonArray body = convert.parse(EntityUtils.toString(entity)).getAsJsonArray();
+
+            JsonObject Person = body.get(0).getAsJsonObject();
+
+            JsonArray candidatos = Person.getAsJsonArray("candidates");
+
+            if (candidatos.size() >= 0) {
+                JsonObject condidato = candidatos.get(0).getAsJsonObject();
+                return new Persona(
+                        condidato.get("personId").getAsString(),
+                        condidato.get("confidence").getAsString()
+                );
+            }
+            return null;
+        } catch (IOException e) {
+            throw e;
+        }
+    }
+
+    public Persona getPerson(String idPerson) throws IOException {
+        HttpClient httpClient = new DefaultHttpClient();
+        JsonParser convert = new JsonParser();
+        try {
+            HttpGet request = new HttpGet(Configuration.Location + "/persongroups/usuarios/persons/" + idPerson);
+            request.addHeader("Content-Type", "application/json");
+            request.addHeader("Ocp-Apim-Subscription-Key", Configuration.key);
+
+            HttpResponse response = httpClient.execute(request);
+            HttpEntity entity = response.getEntity();
+
+            JsonObject body = convert.parse(EntityUtils.toString(entity)).getAsJsonObject();
+
+            return new Persona(
+                    body.get("personId").getAsString(),
+                    body.get("name").getAsString(),
+                    body.get("userData").getAsString(),
+                    String.valueOf(body.get("persistedFaceIds").getAsJsonArray().size())
+            );
         } catch (IOException e) {
             throw e;
         }

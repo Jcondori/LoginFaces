@@ -17,7 +17,7 @@
                 <p:panelGrid columns="2">
 
                     <p:outputLabel value="Nombre"/>
-                    <p:inputText value="#{controller.persona.nombre}"/>
+                    <p:inputText value="#{controller.persona.nombre}" required="true" requiredMessage="Ingrese un Nombre"/>
                     <p:outputLabel value="Descripcion"/>
                     <p:inputText value="#{controller.persona.descripcion}"/>
 
@@ -25,7 +25,7 @@
                                      value="Ingresar"
                                      actionListener="#{controller.createPerson()}"
                                      oncomplete="handleSubmit(args,'createPerson');"
-                                     update=":form:dataPerson"/>
+                                     update="formIngresarPerson :form:dataPerson"/>
 
                     <p:blockUI trigger="btnIngresarPerson" block="formIngresarPerson"/>
 

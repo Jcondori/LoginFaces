@@ -17,7 +17,7 @@
                 <p:panelGrid columns="2">
 
                     <p:outputLabel value="URL"/>
-                    <p:inputText value="#{controller.faces.url}"/>
+                    <p:inputText value="#{controller.faces.url}" required="true" requiredMessage="Ingrese una URL"/>
                     <p:outputLabel value="Descripcion"/>
                     <p:inputText value="#{controller.faces.descripcion}"/>
 
@@ -25,7 +25,7 @@
                                      value="Ingresar"
                                      actionListener="#{controller.addFacesPerson()}"
                                      oncomplete="handleSubmit(args,'addFacesPerson');"
-                                     update=":form:dataPerson"/>
+                                     update="formAdFacesPerson :form:dataPerson"/>
 
                     <p:blockUI trigger="btnAddFacesPerson" block="formIngresarPerson"/>
 

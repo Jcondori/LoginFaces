@@ -103,6 +103,19 @@ public class DAO {
             throw e;
         }
     }
+    
+    public void trainPersonas() throws IOException {
+        HttpClient httpClient = new DefaultHttpClient();
+        try {
+            HttpPost request = new HttpPost(Configuration.Location + "/persongroups/usuarios/train");
+            request.addHeader("Content-Type", "application/json");
+            request.addHeader("Ocp-Apim-Subscription-Key", Configuration.key);
+
+            httpClient.execute(request);
+        } catch (IOException e) {
+            throw e;
+        }
+    }
 
     public static void main(String[] args) throws IOException {
         DAO dao = new DAO();

@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import lombok.Data;
 
 @Data
@@ -73,6 +75,17 @@ public class Controller implements Serializable {
             dao.addFacesPersonas(persona.getId(), faces.getUrl(), faces.getDescripcion());
             clean();
             listarPersonas();
+        } catch (IOException e) {
+            throw e;
+        }
+    }
+    
+    public void trainGrupoPerson() throws IOException {
+        DAO dao;
+        try {
+            dao = new DAO();
+            dao.trainPersonas();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Entrenado Correctamente"));
         } catch (IOException e) {
             throw e;
         }

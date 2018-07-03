@@ -44,7 +44,7 @@
                 <p:menuitem id="btnEliminarPerson" value="Eliminar" actionListener="#{controller.deletePerson()}" update="dataPerson">
                     <p:confirm header="Confirmacion" message="¿Desea eliminar la Persona?" icon="ui-icon-alert"/>                
                 </p:menuitem>
-                <p:menuitem id="addFacesPerson"
+                <p:menuitem id="addFacesPerson" oncomplete="PF('addFacesPerson').show();" update=":formAdFacesPerson"/>
             </p:contextMenu>
 
             <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
@@ -54,6 +54,7 @@
         </h:form>
 
         <ui:include src="Dialogos/CreatePerson.xhtml"/>
+        <ui:include src="Dialogos/AddFacesPerson.xhtml"/>
 
         <script src="resources/js/jsfcrud.js" type="text/javascript"></script>
     </h:body>

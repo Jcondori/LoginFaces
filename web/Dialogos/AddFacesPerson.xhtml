@@ -21,13 +21,13 @@
                     <p:outputLabel value="Descripcion"/>
                     <p:inputText value="#{controller.faces.descripcion}"/>
 
-                    <p:commandButton id="btnIngresarPerson"
+                    <p:commandButton id="btnAddFacesPerson"
                                      value="Ingresar"
-                                     actionListener="#{controller.createPerson()}"
-                                     oncomplete="handleSubmit(args,'createPerson');"
+                                     actionListener="#{controller.addFacesPerson()}"
+                                     oncomplete="handleSubmit(args,'addFacesPerson');"
                                      update=":form:dataPerson"/>
 
-                    <p:blockUI trigger="btnIngresarPerson" block="formIngresarPerson"/>
+                    <p:blockUI trigger="btnAddFacesPerson" block="formIngresarPerson"/>
 
                 </p:panelGrid>
             </h:form>

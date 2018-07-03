@@ -9,6 +9,11 @@
     </h:head>
     <h:body>
         <h:form id="form">
+            
+            <p:growl id="msg">
+                <p:autoUpdate/>
+            </p:growl>
+            
             <p:dataTable id="dataPerson"
                          value="#{controller.lstPersonas}"
                          var="Person"

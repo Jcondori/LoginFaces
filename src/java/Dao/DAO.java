@@ -39,12 +39,11 @@ public class DAO {
 
             for (JsonElement persons : body) {
                 JsonObject element = persons.getAsJsonObject();
-                JsonArray faces = element.get("persistedFaceIds").getAsJsonArray();
                 person = new Persona(
                         element.get("personId").getAsString(),
                         element.get("name").getAsString(),
                         element.get("userData").getAsString(),
-                        String.valueOf(faces.size())
+                        String.valueOf(element.get("persistedFaceIds").getAsJsonArray().size())
                 );
                 lista.add(person);
             }

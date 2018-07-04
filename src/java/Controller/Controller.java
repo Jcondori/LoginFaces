@@ -109,7 +109,7 @@ public class Controller implements Serializable {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Encontrado"));
             } else {
                 setUrlIndetificado("https://ih0.redbubble.net/image.11241105.4427/ra,fitted_v_neck,x1950,45474B:e9c9d4e890,front-c,275,133,750,1000-bg,f8f8f8.lite-1.jpg");
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("No w"));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("No se encontro"));
             }
             setUrlImagen(null);
             setRespuestaConfianza(null);

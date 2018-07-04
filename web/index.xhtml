@@ -65,8 +65,11 @@
             <p:commandButton id="btnIdentify" value="Identificar" actionListener="#{controller.identifyFaces()}" update="formIdentify"/>
             <br/>
             <img src="#{controller.urlIndetificado}" height="500px"/>
+            <p:outputLabel value="Nombre :  "/>
             <h:outputText value="#{controller.personaIdentificada.nombre}"/>
+            <p:outputLabel value="Descripcion :  "/>
             <h:outputText value="#{controller.personaIdentificada.descripcion}"/>
+            <p:outputLabel value="Confianza :  "/>
             <h:outputText value="#{controller.personaIdentificada.confianza}"/>
             
             <p:blockUI trigger="btnIdentify" block="formIdentify"/>

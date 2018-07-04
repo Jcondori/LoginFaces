@@ -166,8 +166,8 @@ public class DAO {
             JsonObject Person = body.get(0).getAsJsonObject();
 
             JsonArray candidatos = Person.getAsJsonArray("candidates");
-
-            if (candidatos.size() >= 0) {
+            
+            if (candidatos.size() > 0) {
                 JsonObject condidato = candidatos.get(0).getAsJsonObject();
                 return new Persona(
                         condidato.get("personId").getAsString(),

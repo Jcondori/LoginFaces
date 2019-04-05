@@ -93,7 +93,7 @@ BEGIN
          RAISE e_line_more_data;
       --ELSIF instr(lc_cadena, ',', 1, 25) = 0 THEN
       --ELSIF instr(lc_cadena, ',', 1, 28) = 0 THEN -->  11/06/2014
-      	ELSIF instr(lc_cadena, ',', 1, 29) = 0 THEN  --rp-->  
+      	ELSIF instr(lc_cadena, ',', 1 /*, 29*/) = 0 THEN  --rp-->  
          p_error := 'Linea ' || ln_cont || 'tiene menor cantidad de columnas';
          RAISE e_line_few_data;
       ELSE

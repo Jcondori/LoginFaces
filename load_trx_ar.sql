@@ -1,11 +1,12 @@
-CREATE OR REPLACE PROCEDURE load_trx_ar(p_org_id    NUMBER,
+CREATE OR REPLACE PROCEDURE INTERSF.load_trx_ar(p_org_id    NUMBER,
                                                 p_user_name VARCHAR2,
+                                                p_lote_id   OUT number,
                                                 p_error     OUT VARCHAR2) IS
   --- jca 14/05/2014 carga transacciones con numeracion automatica en AR desde archivo csv,
   --                 no considera numeracion manual, falta crear tabal de trabajo
   v_line    NUMBER;
   v_error   VARCHAR2(1000);
-  v_nro_reg NUMBER;
+  --v_nro_reg NUMBER;
   n_reg     NUMBER;
   e_erro_data EXCEPTION;
   c_cuenta          intersf.sy_ar_pe_load_accounts%rowtype;
@@ -23,7 +24,8 @@ CREATE OR REPLACE PROCEDURE load_trx_ar(p_org_id    NUMBER,
   vv_direccion      VARCHAR2(120);
   vv_urbanizacion   VARCHAR2(120);
   vv_pais           VARCHAR2(10);
-  v_flag_requerido varchar2(1);
+  v_flag_requerido  varchar2(1);
+  vv_lote_id        number;
   -- documentos cargados
   CURSOR c_docs IS
     SELECT p.doc_id,
@@ -137,6 +139,12 @@ CREATE OR REPLACE PROCEDURE load_trx_ar(p_org_id    NUMBER,
 BEGIN
   worg_id := p_org_id;
   -- PRIMERO VALIDA QUE la data cargada este bien ingresada
+  
+  select intersf.OPT_VALIDACION_VVEE_SEQ.nextval into vv_lote_id from dual ;
+  
+  p_lote_id := vv_lote_id ;
+  
+  
   FOR r_docs IN c_docs LOOP
     -- valida existencia del cliente
     BEGIN
@@ -780,7 +788,9 @@ BEGIN
        interface_line_attribute10,
        creation_date --> 01/12/2014
        -- ssc jvalverde 20180919
-       ,attribute3)
+       ,attribute3
+       ,attribute6
+       )
     VALUES
       ('INTERNO',
        x.header_description, -- origen
@@ -805,7 +815,7 @@ BEGIN
        null, --x.transac_serial || x.transac_number, -- r.cc_serie||r.cc_factura,
        x.amount_product, -- 1,
        x.unitary_price, -- r.cc_monto,
-       worg_id,
+       -1,--worg_id,
        x.box_flow, --r.cc_flujo,
        wcreated_by,
        x.vendor_id, --r.cc_vendedor,
@@ -846,7 +856,9 @@ BEGIN
        substr(x.direccion,31,30),
        substr(x.direccion,61,30),
        SYSDATE -->  01/12/2014
-       ,replace(x.codproductosunat,chr(13)));
+       ,replace(x.codproductosunat,chr(13))
+       ,vv_lote_id
+       );
     INSERT INTO ar.ra_interface_distributions_all
       (interface_line_context,
        interface_line_attribute1,
